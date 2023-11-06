@@ -31,8 +31,8 @@ def load_dataset(file_path, tokenizer):
 
     return qa_pairs
 
-train_file_path = "tbot_dataset.txt"  # Replace with the path to your dataset file
-output_dir = "chatbot_model"  # Directory where the model will be saved
+train_file_path = "tbot_dataset.txt"  # path to dataset file
+output_dir = "chatbot_model"  # directory where the model will be saved
 model_name = "ai-forever/rugpt3medium_based_on_gpt2"
 
 tokenizer = GPT2Tokenizer.from_pretrained(model_name)
@@ -59,7 +59,7 @@ training_args = TrainingArguments(
     overwrite_output_dir=True,
     per_device_train_batch_size=8,
     num_train_epochs=6,
-    save_steps=500,  # Adjust as needed
+    save_steps=500,  
 )
 
 trainer = Trainer(
@@ -89,19 +89,19 @@ def generate_text(prompt, model, tokenizer, max_length=50):
 
     generated_text = tokenizer.decode(output_ids[0], skip_special_tokens=True)
 
-    # Check if generated text contains a valid answer (not a new question)
+    # check if generated text contains a valid answer (not a new question)
     if "ответ:" in generated_text.lower():
         return generated_text
     else:
-        # Handle cases where it generated a new question
+        # handle cases where it generated a new question
         return "I'm sorry, I couldn't provide a valid answer."
 
 prompt = "вопрос: Как поступить в аиту?"
 response = generate_text(prompt, model, tokenizer)
 print(response)
 
-model_path = "/content/chatbot_model"  # Replace with the path to your model directory
-output_drive_path = "/content/drive/My Drive/GPT"  # Replace with the desired folder path in your Google Drive
+model_path = "/content/chatbot_model"  # path to model directory
+output_drive_path = "/content/drive/My Drive/GPT"  # path in Google Drive
 
 import shutil
 
@@ -115,16 +115,16 @@ os.environ['LC_ALL'] = 'en_US.UTF-8'
 
 from transformers import GPT2LMHeadModel
 
-# Specify the path to your locally trained model
+#path to locally trained model
 local_model_path = "/content/chatbot_model"
 
-# Load the locally trained model
+# loading the locally trained model
 model = GPT2LMHeadModel.from_pretrained(local_model_path)
 
-# Choose a name for your model on the Hugging Face Model Hub
-model_name = "Alpi157/Final_conversational_model"  # Replace "your_username" with your Hugging Face username
+# a name for model on the Hugging Face Model Hub
+model_name = "Alpi157/Final_conversational_model"  # replace "your_username" with your Hugging Face username
 
-# Push the model to the Hugging Face Model Hub
+# pushing the model to the Hugging Face Model Hub
 model.push_to_hub(model_name)
 
 print(f"Model '{model_name}' has been pushed to the Hugging Face Model Hub.")
